@@ -5,8 +5,8 @@ An iOS application that performs time calculations!<br>
 
 <h2> Screenshots: </h2>
 <div align="center">
-    <img src="/screenshots/screenshot1.png" width="300px" hspace="20"></img> 
-    <img src="/screenshots/screenshot2.png" width="300px" hspace="20"></img> 
+    <img src="/screenshots/screenshot1.png" width="400px"></img> 
+    <img src="/screenshots/screenshot2.png" width="400px"></img> 
 </div>
 
 <h2>Upcoming Additions</h2>

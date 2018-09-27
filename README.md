@@ -8,7 +8,7 @@ An iOS application that performs time calculations!<br>
 
 <h2>Upcoming Additions</h2>
 <li>
-  <ul> - Support for subtraction and multiplication</ul>
-  <ul> - Universal device support</ul>
-  <ul> - App icon</ul>
+  <ul>Support for subtraction and multiplication</ul>
+  <ul>Universal device support</ul>
+  <ul>App icon</ul>
 </li>

@@ -21,6 +21,18 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    let closeButton: UIButton = {
+        let btn = UIButton()
+        btn.layer.cornerRadius = 20
+        btn.setImage(UIImage(named: "closeButton.png"), for: .normal)
+        btn.contentHorizontalAlignment = .fill
+        btn.contentVerticalAlignment = .fill
+        btn.imageView?.contentMode = .scaleAspectFill
+        btn.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        btn.autoresizingMask = [.flexibleLeftMargin, .flexibleBottomMargin]
+        return btn
+    }()
+    
     let calculatedLabel: UILabel = {
         let label = UILabel()
         label.text = "00:00 AM"
@@ -189,6 +201,8 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         
         createInfoPage()
         view.addSubview(infoView)
+        view.addSubview(closeButton)
+        closeButton.isHidden = true
         infoView.isHidden = true
 
         constrainInfoView()
@@ -259,8 +273,8 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     }
     
     func constrainInfoView(){
-        infoView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        infoView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20).isActive = true
+        infoView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+        infoView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200).isActive = true
         infoView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         infoView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
     }
@@ -330,6 +344,11 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     
     @objc func infoButtonClicked(_ sender: UIBarButtonItem!){
         infoView.isHidden = !infoView.isHidden
+        closeButton.isHidden = !closeButton.isHidden
+        closeButton.frame = CGRect(x: infoView.frame.maxX-25, y: infoView.frame.minY-15, width: 40, height: 40)
+        
+        bottomView.isUserInteractionEnabled = false
+        middleView.isUserInteractionEnabled = false
     }
     
     @objc func emailButtonPressed(_ sender: UIButton!){
@@ -442,6 +461,13 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
             minsToAdd = row
         }
         updateCalculatedTime(addHours: hoursToAdd, addMins: minsToAdd)
+    }
+    
+    @objc func closeButtonTapped(_ sender: UIButton!) {
+        infoView.isHidden = true
+        closeButton.isHidden = true
+        bottomView.isUserInteractionEnabled = true
+        middleView.isUserInteractionEnabled = true
     }
 
 }

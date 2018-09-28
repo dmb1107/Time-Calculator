@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:TimeCalculator.xcodeproj">
+      location = "self:/Users/Dave/Documents/Development/App Development/Apps/TimeCalculator/TimeCalculator.xcodeproj">
    </FileRef>
 </Workspace>

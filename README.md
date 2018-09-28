@@ -2,11 +2,12 @@
 An iOS application that performs time calculations!<br>
 <p>This application will be released on the app store very soon.</p>
 <br>
+<img src="/screenshots/Icon-Full.png" width="180px"></img>
 
 <h2> Screenshots: </h2>
 <div align="center">
-    <img src="/screenshots/screenshot1.png" width="400px"></img> 
-    <img src="/screenshots/screenshot2.png" width="400px"></img> 
+    <img src="/screenshots/screenshot1.png" width="350px"></img> 
+    <img src="/screenshots/screenshot2.png" width="350px"></img> 
 </div>
 
 <h2>Upcoming Additions</h2>
@@ -15,5 +16,4 @@ An iOS application that performs time calculations!<br>
     <li>Support for calculating time with seconds</li>
     <li>Support for date/month calculations</li>
     <li>Ability to set a countdown to a certain date</li>
-  <li>App icon</li>
 </ul>

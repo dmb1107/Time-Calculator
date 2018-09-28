@@ -32,10 +32,8 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         btn.autoresizingMask = [.flexibleLeftMargin, .flexibleBottomMargin]
         return btn
     }()
-    
     let calculatedLabel: UILabel = {
         let label = UILabel()
-        label.text = "00:00 AM"
         label.font = styles.calculatedFont
         label.textAlignment = .center
         label.textColor = styles.lightLabelColor
@@ -242,10 +240,13 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         label.text = "Application developed by Dave Becker."
         label.textColor = .white
         label.textAlignment = .center
+        label.lineBreakMode = .byWordWrapping
+        label.numberOfLines = 0
         infoView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.centerXAnchor.constraint(equalTo: infoView.centerXAnchor).isActive = true
         label.centerYAnchor.constraint(equalTo: infoView.centerYAnchor, constant: -60).isActive = true
+        label.widthAnchor.constraint(lessThanOrEqualTo: infoView.widthAnchor, multiplier: 0.9).isActive = true
         
         let emailButton = UIButton()
         emailButton.setTitle("Email me", for: .normal)
@@ -257,7 +258,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         emailButton.translatesAutoresizingMaskIntoConstraints = false
         emailButton.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 60).isActive = true
         emailButton.centerXAnchor.constraint(equalTo: infoView.centerXAnchor).isActive = true
-        emailButton.widthAnchor.constraint(equalToConstant: label.intrinsicContentSize.width).isActive = true
+        emailButton.widthAnchor.constraint(equalTo: infoView.widthAnchor, multiplier: 0.9).isActive = true
         
         let websiteButton = UIButton()
         websiteButton.setTitle("My website", for: .normal)
@@ -269,37 +270,38 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         websiteButton.translatesAutoresizingMaskIntoConstraints = false
         websiteButton.topAnchor.constraint(equalTo: emailButton.bottomAnchor, constant: 25).isActive = true
         websiteButton.centerXAnchor.constraint(equalTo: infoView.centerXAnchor).isActive = true
-        websiteButton.widthAnchor.constraint(equalToConstant: label.intrinsicContentSize.width).isActive = true
+        websiteButton.widthAnchor.constraint(equalTo: infoView.widthAnchor, multiplier: 0.9).isActive = true
     }
     
     func constrainInfoView(){
-        infoView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
-        infoView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -200).isActive = true
-        infoView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        infoView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        infoView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        infoView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        infoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
+        infoView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
     }
     
     func constrainCalculatedLabel(){
         calculatedLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         calculatedLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         calculatedLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        calculatedLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        calculatedLabel.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.12).isActive = true
     }
+    
     func constrainMiddleView(){
         middleView.topAnchor.constraint(equalTo: calculatedLabel.bottomAnchor).isActive = true
         middleView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         middleView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        middleView.heightAnchor.constraint(equalToConstant: 230).isActive = true
+        middleView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.38).isActive = true
         originalTimeLabel.topAnchor.constraint(equalTo: calculatedLabel.bottomAnchor).isActive = true
         originalTimeLabel.leftAnchor.constraint(equalTo: middleView.leftAnchor).isActive = true
         originalTimeLabel.rightAnchor.constraint(equalTo: middleView.rightAnchor).isActive = true
-        originalTimeLabel.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        originalTimeLabel.heightAnchor.constraint(equalTo: originalTimePicker.heightAnchor, multiplier: 0.8).isActive = true
         originalTimePicker.topAnchor.constraint(equalTo: originalTimeLabel.bottomAnchor).isActive = true
         originalTimePicker.leftAnchor.constraint(equalTo: middleView.leftAnchor).isActive = true
         originalTimePicker.rightAnchor.constraint(equalTo: middleView.rightAnchor).isActive = true
-        originalTimePicker.bottomAnchor.constraint(equalTo: setAsCurrentTimeButton.topAnchor).isActive = true
+        originalTimePicker.centerYAnchor.constraint(equalTo: middleView.centerYAnchor).isActive = true
         setAsCurrentTimeButton.centerXAnchor.constraint(equalTo: middleView.centerXAnchor).isActive = true
-        setAsCurrentTimeButton.bottomAnchor.constraint(equalTo: middleView.bottomAnchor, constant: -10).isActive = true
+        setAsCurrentTimeButton.bottomAnchor.constraint(equalTo: middleView.bottomAnchor, constant: -12).isActive = true
         setAsCurrentTimeButton.widthAnchor.constraint(equalToConstant: setAsCurrentTimeButton.intrinsicContentSize.width + 20).isActive = true
         setAsCurrentTimeButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
@@ -313,7 +315,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         timeToAddLabel.topAnchor.constraint(equalTo: bottomView.topAnchor).isActive = true
         timeToAddLabel.leftAnchor.constraint(equalTo: bottomView.leftAnchor).isActive = true
         timeToAddLabel.rightAnchor.constraint(equalTo: bottomView.rightAnchor).isActive = true
-        timeToAddLabel.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        timeToAddLabel.heightAnchor.constraint(equalTo: bottomView.heightAnchor, multiplier: 0.175).isActive = true
         
         hoursToAddLabel.topAnchor.constraint(equalTo: timeToAddLabel.bottomAnchor).isActive = true
         hoursToAddLabel.leftAnchor.constraint(equalTo: bottomView.leftAnchor, constant: 30).isActive =  true
@@ -323,7 +325,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         minsToAddLabel.topAnchor.constraint(equalTo: timeToAddLabel.bottomAnchor).isActive = true
         minsToAddLabel.rightAnchor.constraint(equalTo: bottomView.rightAnchor, constant: -30).isActive =  true
         minsToAddLabel.widthAnchor.constraint(equalToConstant: minsToAddLabel.intrinsicContentSize.width).isActive = true
-        minsToAddLabel.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        minsToAddLabel.heightAnchor.constraint(equalTo: timeToAddLabel.heightAnchor, multiplier: 0.75).isActive = true
         
         hoursToAddPicker.topAnchor.constraint(equalTo: hoursToAddLabel.bottomAnchor).isActive = true
         hoursToAddPicker.leftAnchor.constraint(equalTo: hoursToAddLabel.leftAnchor).isActive = true
@@ -336,9 +338,13 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         minsToAddPicker.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         stack.topAnchor.constraint(equalTo: hoursToAddPicker.bottomAnchor, constant: 20).isActive = true
-        stack.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -5).isActive = true
-        stack.leftAnchor.constraint(equalTo: bottomView.leftAnchor, constant: 5).isActive = true
-        stack.rightAnchor.constraint(equalTo: bottomView.rightAnchor, constant: -5).isActive = true
+        if #available(iOS 11.0, *) {
+            stack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5).isActive = true
+        } else {
+            stack.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -8).isActive = true
+        }
+        stack.leftAnchor.constraint(equalTo: bottomView.leftAnchor, constant: 8).isActive = true
+        stack.rightAnchor.constraint(equalTo: bottomView.rightAnchor, constant: -8).isActive = true
         
     }
     

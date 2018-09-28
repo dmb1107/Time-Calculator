@@ -116,48 +116,6 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         picker.tag = 2
         return picker
     }()
-    let fifteenMinButton: UIButton = {
-        let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("+15 Min", for: .normal)
-        button.backgroundColor = styles.buttonBackgroundColor
-        button.setTitleColor(.white, for: .normal)
-        return button
-    }()
-    let thirtyMinButton: UIButton = {
-        let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("+30 Min", for: .normal)
-        button.backgroundColor = styles.buttonBackgroundColor
-        button.setTitleColor(.white, for: .normal)
-        return button
-    }()
-    let fourtyFiveMinButton: UIButton = {
-        let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("+45 Min", for: .normal)
-        button.backgroundColor = styles.buttonBackgroundColor
-        button.setTitleColor(.white, for: .normal)
-        return button
-    }()
-    let oneHourButton: UIButton = {
-        let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("+1 Hr", for: .normal)
-        button.backgroundColor = styles.buttonBackgroundColor
-        button.setTitleColor(.white, for: .normal)
-        return button
-    }()
-    let oneHourFifteenButton: UIButton = {
-        let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("+1 Hr 15 Min", for: .normal)
-        button.backgroundColor = styles.buttonBackgroundColor
-        button.setTitleColor(.white, for: .normal)
-        return button
-    }()
-    let oneHourThirtyButton: UIButton = {
-        let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("+1 Hr 30 Min", for: .normal)
-        button.backgroundColor = styles.buttonBackgroundColor
-        button.setTitleColor(.white, for: .normal)
-        return button
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -167,7 +125,6 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         
         self.view.backgroundColor = styles.topViewBackgroundColor
         self.title = "Time Calculator"
-        let buttonArray = [fifteenMinButton, thirtyMinButton, fourtyFiveMinButton, oneHourButton, oneHourFifteenButton, oneHourThirtyButton]
         hoursToAddPicker.delegate = self
         hoursToAddPicker.dataSource = self
         minsToAddPicker.delegate = self
@@ -182,13 +139,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         setAsCurrentTimeButton.addTarget(self, action: #selector(self.currentTimeButtonClicked), for: .touchUpInside)
         constrainMiddleView()
         view.addSubview(bottomView)
-        fifteenMinButton.addTarget(self, action: #selector(self.fifteenMinButtonClicked), for: .touchUpInside)
-        thirtyMinButton.addTarget(self, action: #selector(self.thirtyMinButtonClicked), for: .touchUpInside)
-        fourtyFiveMinButton.addTarget(self, action: #selector(self.fourtyFiveMinButtonClicked), for: .touchUpInside)
-        oneHourButton.addTarget(self, action: #selector(self.oneHourButtonClicked), for: .touchUpInside)
-        oneHourFifteenButton.addTarget(self, action: #selector(self.oneHourFifteenButtonClicked), for: .touchUpInside)
-        oneHourThirtyButton.addTarget(self, action: #selector(self.oneHourThirtyButtonClicked), for: .touchUpInside)
-        let buttonStack = createButtonStack(array: buttonArray)
+        let buttonStack = createCalculatorButtons()
         bottomView.addSubview(timeToAddLabel)
         bottomView.addSubview(hoursToAddLabel)
         bottomView.addSubview(minsToAddLabel)
@@ -205,6 +156,30 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 
         constrainInfoView()
         
+    }
+    
+    func createCalculatorButtons() -> UIStackView {
+        let fifteenMinButton = makeCalculatorButtonsWithText(text: "+15 Min")
+        let thirtyMinButton = makeCalculatorButtonsWithText(text: "+30 Min")
+        let fourtyFiveMinButton = makeCalculatorButtonsWithText(text: "+45 Min")
+        let oneHourButton = makeCalculatorButtonsWithText(text: "+1 Hr")
+        let oneHourFifteenButton = makeCalculatorButtonsWithText(text: "+1 Hr 15 Min")
+        let oneHourThirtyButton = makeCalculatorButtonsWithText(text: "+1 Hr 30 Min")
+        fifteenMinButton.addTarget(self, action: #selector(self.fifteenMinButtonClicked), for: .touchUpInside)
+        thirtyMinButton.addTarget(self, action: #selector(self.thirtyMinButtonClicked), for: .touchUpInside)
+        fourtyFiveMinButton.addTarget(self, action: #selector(self.fourtyFiveMinButtonClicked), for: .touchUpInside)
+        oneHourButton.addTarget(self, action: #selector(self.oneHourButtonClicked), for: .touchUpInside)
+        oneHourFifteenButton.addTarget(self, action: #selector(self.oneHourFifteenButtonClicked), for: .touchUpInside)
+        oneHourThirtyButton.addTarget(self, action: #selector(self.oneHourThirtyButtonClicked), for: .touchUpInside)
+        return createButtonStack(array: [fifteenMinButton, thirtyMinButton, fourtyFiveMinButton, oneHourButton, oneHourFifteenButton, oneHourThirtyButton])
+    }
+    
+    func makeCalculatorButtonsWithText(text: String) -> UIButton {
+        let button = UIButton(type: UIButton.ButtonType.system)
+        button.setTitle(text, for: .normal)
+        button.backgroundColor = styles.buttonBackgroundColor
+        button.setTitleColor(.white, for: .normal)
+        return button
     }
     
     func createButtonStack(array: Array<UIButton>) -> UIStackView {

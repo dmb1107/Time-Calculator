@@ -15,6 +15,5 @@ An iOS application that performs time calculations!<br>
     <li>Support for calculating time with seconds</li>
     <li>Support for date/month calculations</li>
     <li>Ability to set a countdown to a certain date</li>
-  <li>Universal device support</li>
   <li>App icon</li>
 </ul>

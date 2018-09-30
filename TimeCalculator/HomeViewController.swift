@@ -28,7 +28,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         btn.contentHorizontalAlignment = .fill
         btn.contentVerticalAlignment = .fill
         btn.imageView?.contentMode = .scaleAspectFill
-        btn.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(hideInfoView), for: .touchUpInside)
         btn.autoresizingMask = [.flexibleLeftMargin, .flexibleBottomMargin]
         return btn
     }()
@@ -324,12 +324,43 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     }
     
     @objc func infoButtonClicked(_ sender: UIBarButtonItem!){
-        infoView.isHidden = !infoView.isHidden
-        closeButton.isHidden = !closeButton.isHidden
+        if infoView.isHidden {
+            showInfoView()
+        } else {
+            hideInfoView()
+        }
+    }
+    
+    func showInfoView() {
+        infoView.isHidden = false
+        closeButton.isHidden = false
         closeButton.frame = CGRect(x: infoView.frame.maxX-25, y: infoView.frame.minY-15, width: 40, height: 40)
-        
         bottomView.isUserInteractionEnabled = false
         middleView.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.2) {
+            self.infoView.alpha = 1.0
+            self.closeButton.alpha = 1.0
+            self.middleView.alpha = 0.3
+            self.bottomView.alpha = 0.3
+            self.view.backgroundColor = styles.topViewBackgroundColorDimmed
+            self.calculatedLabel.alpha = 0.3
+        }
+    }
+    
+    @objc func hideInfoView() {
+        infoView.isHidden = true
+        closeButton.isHidden = true
+        bottomView.isUserInteractionEnabled = true
+        middleView.isUserInteractionEnabled = true
+        UIView.animate(withDuration: 0.2) {
+            self.infoView.alpha = 0
+            self.closeButton.alpha = 0
+            self.middleView.alpha = 1.0
+            self.bottomView.alpha = 1.0
+            self.view.alpha = 1.0
+            self.view.backgroundColor = styles.topViewBackgroundColor
+            self.calculatedLabel.alpha = 1.0
+        }
     }
     
     @objc func emailButtonPressed(_ sender: UIButton!){
@@ -442,13 +473,6 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
             minsToAdd = row
         }
         updateCalculatedTime(addHours: hoursToAdd, addMins: minsToAdd)
-    }
-    
-    @objc func closeButtonTapped(_ sender: UIButton!) {
-        infoView.isHidden = true
-        closeButton.isHidden = true
-        bottomView.isUserInteractionEnabled = true
-        middleView.isUserInteractionEnabled = true
     }
 
 }

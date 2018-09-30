@@ -17,6 +17,7 @@ struct styles {
     static let calculatedFont = UIFont(name: "CourierNewPS-BoldMT", size: 36.0)
     static let infoViewBackgroundColor = UIColor(red:0.07, green:0.21, blue:0.36, alpha:1.0)
     static let topViewBackgroundColor = UIColor(red:0.00, green:0.13, blue:0.26, alpha:1.0)
+    static let topViewBackgroundColorDimmed = UIColor(red:0.00, green:0.13, blue:0.26, alpha:0.3)
     static let lightLabelColor = UIColor.white
     static let middleViewBackgroundColor = UIColor(red:0.07, green:0.21, blue:0.36, alpha:1.0)
     static let bottomViewBackgroundColor = UIColor.white

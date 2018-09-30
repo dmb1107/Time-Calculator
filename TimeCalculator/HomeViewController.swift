@@ -314,7 +314,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         
         stack.topAnchor.constraint(equalTo: hoursToAddPicker.bottomAnchor, constant: 20).isActive = true
         if #available(iOS 11.0, *) {
-            stack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5).isActive = true
+            stack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8).isActive = true
         } else {
             stack.bottomAnchor.constraint(equalTo: bottomView.bottomAnchor, constant: -8).isActive = true
         }

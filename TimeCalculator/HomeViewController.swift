@@ -119,16 +119,13 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let barButton = UIBarButtonItem(image: UIImage(named: "info.png"), style: .plain, target: self, action: #selector(infoButtonClicked))
-        self.navigationItem.setRightBarButton(barButton, animated: false)
-        
         self.view.backgroundColor = styles.topViewBackgroundColor
         self.title = "Time Calculator"
         hoursToAddPicker.delegate = self
         hoursToAddPicker.dataSource = self
         minsToAddPicker.delegate = self
         minsToAddPicker.dataSource = self
+        createInfoButton()
         view.addSubview(calculatedLabel)
         constrainCalculatedLabel()
         updateCalculatedTime(addHours: 0, addMins: 0)
@@ -158,6 +155,13 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         
     }
     
+    func createInfoButton() {
+        let infoButton = UIButton(type: .infoLight)
+        infoButton.addTarget(self, action: #selector(infoButtonClicked), for: .touchUpInside)
+        let barButton = UIBarButtonItem(customView: infoButton)
+        self.navigationItem.setRightBarButton(barButton, animated: false)
+    }
+    
     func createCalculatorButtons() -> UIStackView {
         let fifteenMinButton = makeCalculatorButtonsWithText(text: "+15 Min")
         let thirtyMinButton = makeCalculatorButtonsWithText(text: "+30 Min")
@@ -165,12 +169,14 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         let oneHourButton = makeCalculatorButtonsWithText(text: "+1 Hr")
         let oneHourFifteenButton = makeCalculatorButtonsWithText(text: "+1 Hr 15 Min")
         let oneHourThirtyButton = makeCalculatorButtonsWithText(text: "+1 Hr 30 Min")
+        
         fifteenMinButton.addTarget(self, action: #selector(self.fifteenMinButtonClicked), for: .touchUpInside)
         thirtyMinButton.addTarget(self, action: #selector(self.thirtyMinButtonClicked), for: .touchUpInside)
         fourtyFiveMinButton.addTarget(self, action: #selector(self.fourtyFiveMinButtonClicked), for: .touchUpInside)
         oneHourButton.addTarget(self, action: #selector(self.oneHourButtonClicked), for: .touchUpInside)
         oneHourFifteenButton.addTarget(self, action: #selector(self.oneHourFifteenButtonClicked), for: .touchUpInside)
         oneHourThirtyButton.addTarget(self, action: #selector(self.oneHourThirtyButtonClicked), for: .touchUpInside)
+        
         return createButtonStack(array: [fifteenMinButton, thirtyMinButton, fourtyFiveMinButton, oneHourButton, oneHourFifteenButton, oneHourThirtyButton])
     }
     

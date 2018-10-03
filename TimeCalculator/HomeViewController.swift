@@ -10,6 +10,7 @@ import UIKit
 
 class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
 
+    let generator = UIImpactFeedbackGenerator(style: .light)
     var hoursToAdd: Int = 0
     var minsToAdd: Int = 0
     let infoView: UIView = {
@@ -164,18 +165,17 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     
     func createCalculatorButtons() -> UIStackView {
         let fifteenMinButton = makeCalculatorButtonsWithText(text: "+15 Min")
+        fifteenMinButton.tag = 15
         let thirtyMinButton = makeCalculatorButtonsWithText(text: "+30 Min")
+        thirtyMinButton.tag = 30
         let fourtyFiveMinButton = makeCalculatorButtonsWithText(text: "+45 Min")
+        fourtyFiveMinButton.tag = 45
         let oneHourButton = makeCalculatorButtonsWithText(text: "+1 Hr")
+        oneHourButton.tag = 60
         let oneHourFifteenButton = makeCalculatorButtonsWithText(text: "+1 Hr 15 Min")
+        oneHourFifteenButton.tag = 75
         let oneHourThirtyButton = makeCalculatorButtonsWithText(text: "+1 Hr 30 Min")
-        
-        fifteenMinButton.addTarget(self, action: #selector(self.fifteenMinButtonClicked), for: .touchUpInside)
-        thirtyMinButton.addTarget(self, action: #selector(self.thirtyMinButtonClicked), for: .touchUpInside)
-        fourtyFiveMinButton.addTarget(self, action: #selector(self.fourtyFiveMinButtonClicked), for: .touchUpInside)
-        oneHourButton.addTarget(self, action: #selector(self.oneHourButtonClicked), for: .touchUpInside)
-        oneHourFifteenButton.addTarget(self, action: #selector(self.oneHourFifteenButtonClicked), for: .touchUpInside)
-        oneHourThirtyButton.addTarget(self, action: #selector(self.oneHourThirtyButtonClicked), for: .touchUpInside)
+        oneHourThirtyButton.tag = 90
         
         return createButtonStack(array: [fifteenMinButton, thirtyMinButton, fourtyFiveMinButton, oneHourButton, oneHourFifteenButton, oneHourThirtyButton])
     }
@@ -185,6 +185,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         button.setTitle(text, for: .normal)
         button.backgroundColor = styles.buttonBackgroundColor
         button.setTitleColor(.white, for: .normal)
+        button.addTarget(self, action: #selector(self.calculatorButtonClicked), for: .touchUpInside)
         return button
     }
     
@@ -384,6 +385,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     
     @objc func currentTimeButtonClicked(_ sender: UIButton!){
         let date = Date()
+        generator.impactOccurred()
         originalTimePicker.date = date
         hoursToAddPicker.selectRow(0, inComponent: 0, animated: true)
         minsToAddPicker.selectRow(0, inComponent: 0, animated: true)
@@ -391,48 +393,15 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         self.pickerView(self.minsToAddPicker, didSelectRow: 0, inComponent: 0)
     }
     
-    @objc func  fifteenMinButtonClicked(_ sender: UIButton!){
-        hoursToAddPicker.selectRow(0, inComponent: 0, animated: true)
-        minsToAddPicker.selectRow(15, inComponent: 0, animated: true)
-        self.pickerView(self.hoursToAddPicker, didSelectRow: 0, inComponent: 0)
-        self.pickerView(self.minsToAddPicker, didSelectRow: 15, inComponent: 0)
+    @objc func calculatorButtonClicked(_ sender: UIButton!) {
+        generator.impactOccurred()
+        let hours: Int = sender.tag / 60
+        let minutes: Int = sender.tag % 60
+        hoursToAddPicker.selectRow(hours, inComponent: 0, animated: true)
+        minsToAddPicker.selectRow(minutes, inComponent: 0, animated: true)
+        self.pickerView(self.hoursToAddPicker, didSelectRow: hours, inComponent: 0)
+        self.pickerView(self.minsToAddPicker, didSelectRow: minutes, inComponent: 0)
     }
-    
-    @objc func  thirtyMinButtonClicked(_ sender: UIButton!){
-        hoursToAddPicker.selectRow(0, inComponent: 0, animated: true)
-        minsToAddPicker.selectRow(30, inComponent: 0, animated: true)
-        self.pickerView(self.hoursToAddPicker, didSelectRow: 0, inComponent: 0)
-        self.pickerView(self.minsToAddPicker, didSelectRow: 30, inComponent: 0)
-    }
-    
-    @objc func  fourtyFiveMinButtonClicked(_ sender: UIButton!){
-        hoursToAddPicker.selectRow(0, inComponent: 0, animated: true)
-        minsToAddPicker.selectRow(45, inComponent: 0, animated: true)
-        self.pickerView(self.hoursToAddPicker, didSelectRow: 0, inComponent: 0)
-        self.pickerView(self.minsToAddPicker, didSelectRow: 45, inComponent: 0)
-    }
-    
-    @objc func  oneHourButtonClicked(_ sender: UIButton!){
-        hoursToAddPicker.selectRow(1, inComponent: 0, animated: true)
-        minsToAddPicker.selectRow(0, inComponent: 0, animated: true)
-        self.pickerView(self.hoursToAddPicker, didSelectRow: 1, inComponent: 0)
-        self.pickerView(self.minsToAddPicker, didSelectRow: 0, inComponent: 0)
-    }
-    
-    @objc func  oneHourFifteenButtonClicked(_ sender: UIButton!){
-        hoursToAddPicker.selectRow(1, inComponent: 0, animated: true)
-        minsToAddPicker.selectRow(15, inComponent: 0, animated: true)
-        self.pickerView(self.hoursToAddPicker, didSelectRow: 1, inComponent: 0)
-        self.pickerView(self.minsToAddPicker, didSelectRow: 15, inComponent: 0)
-    }
-    
-    @objc func  oneHourThirtyButtonClicked(_ sender: UIButton!){
-        hoursToAddPicker.selectRow(1, inComponent: 0, animated: true)
-        minsToAddPicker.selectRow(30, inComponent: 0, animated: true)
-        self.pickerView(self.hoursToAddPicker, didSelectRow: 1, inComponent: 0)
-        self.pickerView(self.minsToAddPicker, didSelectRow: 30, inComponent: 0)
-    }
-    
     
     func displayCalculatedTime(date: Date){
         let dateFormatter = DateFormatter()

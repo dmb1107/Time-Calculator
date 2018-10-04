@@ -11,9 +11,4 @@ An iOS application that performs time calculations!<br>
 </div>
 
 <h2>Upcoming Additions</h2>
-<ul>
-  <li>Support for subtraction and multiplication</li>
-    <li>Support for calculating time with seconds</li>
-    <li>Support for date/month calculations</li>
-    <li>Ability to set a countdown to a certain date</li>
-</ul>
+    <p>&nbsp&nbsp&nbsp&nbsp&nbsp<a href = "https://trello.com/b/PX2gczrP">Trello Board</a></p>

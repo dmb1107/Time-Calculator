@@ -1,14 +1,14 @@
 //
-//  BottomView.swift
+//  CloseButton.swift
 //  TimeCalculator
 //
-//  Created by Dave Becker on 10/3/18.
+//  Created by Dave Becker on 10/4/18.
 //  Copyright © 2018 Dave Becker Development. All rights reserved.
 //
 
 import UIKit
 
-class BottomView: UIView {
+class CloseButton: UIButton {
 
     /*
     // Only override draw() if you perform custom drawing.

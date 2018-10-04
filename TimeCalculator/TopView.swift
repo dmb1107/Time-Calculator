@@ -31,15 +31,15 @@ class TopView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override class var requiresConstraintBasedLayout: Bool {
+        return true
+    }
+    
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = styles.topViewBackgroundColor
         addSubview(calculatedLabel)
         setupLayout()
-    }
-    
-    override class var requiresConstraintBasedLayout: Bool {
-        return true
     }
     
     func setupLayout() {
@@ -50,8 +50,8 @@ class TopView: UIView {
         calculatedLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
     }
     
-    func setCalculatedLabelAlpha(alpha: CGFloat) {
-        calculatedLabel.alpha = alpha
+    func setTopAlpha(alpha: CGFloat) {
+        self.alpha = alpha
     }
     
     func setCalculatedLabelTextFromDate(date: Date) {

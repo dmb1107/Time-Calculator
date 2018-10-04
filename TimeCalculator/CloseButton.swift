@@ -9,8 +9,6 @@
 import UIKit
 
 class CloseButton: UIButton {
-
-    let button = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,20 +20,20 @@ class CloseButton: UIButton {
     }
     
     func createButton() {
-        button.layer.cornerRadius = 20
-        button.setImage(UIImage(named: "closeButton.png"), for: .normal)
-        button.contentHorizontalAlignment = .fill
-        button.contentVerticalAlignment = .fill
-        button.imageView?.contentMode = .scaleAspectFill
-        button.autoresizingMask = [.flexibleLeftMargin, .flexibleBottomMargin]
+        layer.cornerRadius = 20
+        setImage(UIImage(named: "closeButton.png"), for: .normal)
+        contentHorizontalAlignment = .fill
+        contentVerticalAlignment = .fill
+        imageView?.contentMode = .scaleAspectFill
+        autoresizingMask = [.flexibleLeftMargin, .flexibleBottomMargin]
     }
     
     func hide() {
-        button.isHidden = true
+        isHidden = true
     }
     
     func show() {
-        button.isHidden = false
+        isHidden = false
     }
     
 

@@ -50,6 +50,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         button.addTarget(self, action: #selector(currentTimeButtonClicked), for: .touchUpInside)
         return button
     }()
+    let currentTimeButtonContainer = UIView()
     let bottomView: UIView = {
         let view = UIView()
         view.backgroundColor = styles.bottomViewBackgroundColor
@@ -114,10 +115,10 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         view.addSubview(bottomView)
         view.addSubview(infoView)
         view.addSubview(closeButton)
-        
+        currentTimeButtonContainer.addSubview(setAsCurrentTimeButton)
         middleView.addSubview(originalTimeLabel)
         middleView.addSubview(originalTimePicker)
-        middleView.addSubview(setAsCurrentTimeButton)
+        middleView.addSubview(currentTimeButtonContainer)
         bottomView.addSubview(timeToAddLabel)
         bottomView.addSubview(hoursToAddLabel)
         bottomView.addSubview(minsToAddLabel)
@@ -320,16 +321,25 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         middleView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         middleView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         middleView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.38).isActive = true
+        
         originalTimeLabel.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
         originalTimeLabel.leftAnchor.constraint(equalTo: middleView.leftAnchor).isActive = true
         originalTimeLabel.rightAnchor.constraint(equalTo: middleView.rightAnchor).isActive = true
-        originalTimeLabel.heightAnchor.constraint(equalTo: originalTimePicker.heightAnchor, multiplier: 0.8).isActive = true
+        
         originalTimePicker.topAnchor.constraint(equalTo: originalTimeLabel.bottomAnchor).isActive = true
         originalTimePicker.leftAnchor.constraint(equalTo: middleView.leftAnchor).isActive = true
         originalTimePicker.rightAnchor.constraint(equalTo: middleView.rightAnchor).isActive = true
         originalTimePicker.centerYAnchor.constraint(equalTo: middleView.centerYAnchor).isActive = true
-        setAsCurrentTimeButton.centerXAnchor.constraint(equalTo: middleView.centerXAnchor).isActive = true
-        setAsCurrentTimeButton.bottomAnchor.constraint(equalTo: middleView.bottomAnchor, constant: -12).isActive = true
+        originalTimePicker.heightAnchor.constraint(equalTo: middleView.heightAnchor, multiplier: 0.45).isActive = true
+
+        currentTimeButtonContainer.translatesAutoresizingMaskIntoConstraints = false
+        currentTimeButtonContainer.topAnchor.constraint(equalTo: originalTimePicker.bottomAnchor).isActive = true
+        currentTimeButtonContainer.bottomAnchor.constraint(equalTo: middleView.bottomAnchor).isActive = true
+        currentTimeButtonContainer.leftAnchor.constraint(equalTo: middleView.leftAnchor).isActive = true
+        currentTimeButtonContainer.rightAnchor.constraint(equalTo: middleView.rightAnchor).isActive = true
+        
+        setAsCurrentTimeButton.centerXAnchor.constraint(equalTo: currentTimeButtonContainer.centerXAnchor).isActive = true
+        setAsCurrentTimeButton.centerYAnchor.constraint(equalTo: currentTimeButtonContainer.centerYAnchor).isActive = true
         setAsCurrentTimeButton.widthAnchor.constraint(equalToConstant: setAsCurrentTimeButton.intrinsicContentSize.width + 20).isActive = true
         setAsCurrentTimeButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     }

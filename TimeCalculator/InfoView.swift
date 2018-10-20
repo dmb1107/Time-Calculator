@@ -42,6 +42,17 @@ class InfoView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    let donateButton: UIButton = {
+       let button = UIButton()
+        button.setTitle("Donate $.99?", for: .normal)
+        button.backgroundColor = styles.buttonBackgroundColor
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 5
+        button.tag = 2
+        button.addTarget(self, action: #selector(InfoViewButtonPressed), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -66,12 +77,13 @@ class InfoView: UIView {
         addSubview(createdByLabel)
         addSubview(emailButton)
         addSubview(websiteButton)
+        addSubview(donateButton)
         
     }
     
     func setupLayout() {
         createdByLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        createdByLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -60).isActive = true
+        createdByLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -80).isActive = true
         createdByLabel.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: 0.9).isActive = true
         
         emailButton.topAnchor.constraint(equalTo: createdByLabel.bottomAnchor, constant: 60).isActive = true
@@ -81,6 +93,11 @@ class InfoView: UIView {
         websiteButton.topAnchor.constraint(equalTo: emailButton.bottomAnchor, constant: 25).isActive = true
         websiteButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         websiteButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.9).isActive = true
+        
+        donateButton.topAnchor.constraint(equalTo: websiteButton.bottomAnchor, constant: 25).isActive = true
+        donateButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        donateButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.9).isActive = true
+        
     }
     
     func hide() {
@@ -105,6 +122,8 @@ class InfoView: UIView {
             if let url = URL(string: "http://dave-becker.com") {
                 UIApplication.shared.open(url)
             }
+        } else if sender.tag == 2 {
+            // TODO: in app purchase
         }
     }
     

@@ -287,14 +287,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = E6X7XRG34G;
+				DEVELOPMENT_TEAM = 27M48FAK5G;
 				INFOPLIST_FILE = TimeCalculator/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.DaveBeckerDevelopment.TimeCalculator;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Dave-BeckerDevelopment.TimeCalculator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -306,14 +306,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = E6X7XRG34G;
+				DEVELOPMENT_TEAM = 27M48FAK5G;
 				INFOPLIST_FILE = TimeCalculator/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.DaveBeckerDevelopment.TimeCalculator;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.Dave-BeckerDevelopment.TimeCalculator";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;

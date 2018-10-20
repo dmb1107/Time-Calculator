@@ -10,6 +10,7 @@ import UIKit
 
 class InfoView: UIView {
     
+    var stack = UIStackView()
     let createdByLabel: UILabel = {
         let label = UILabel()
         label.text = "Application developed by Dave Becker."
@@ -57,7 +58,6 @@ class InfoView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
-        setupLayout()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -67,6 +67,10 @@ class InfoView: UIView {
     override class var requiresConstraintBasedLayout: Bool {
         return true
     }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        stack.spacing = self.bounds.width * 0.05
+    }
     
     private func setupView() {
         backgroundColor = styles.infoViewBackgroundColor
@@ -74,30 +78,23 @@ class InfoView: UIView {
         layer.borderColor = UIColor.black.cgColor
         layer.borderWidth = 2
         translatesAutoresizingMaskIntoConstraints = false
-        addSubview(createdByLabel)
-        addSubview(emailButton)
-        addSubview(websiteButton)
-        addSubview(donateButton)
-        
+        createStackView()
+        addSubview(stack)
+        setupLayout()
+    }
+    func createStackView() {
+        stack = UIStackView(arrangedSubviews: [createdByLabel, emailButton, websiteButton, donateButton])
+        stack.axis = .vertical
+        stack.distribution = .fillEqually
+        stack.alignment = .fill
+        stack.translatesAutoresizingMaskIntoConstraints = false
     }
     
     func setupLayout() {
-        createdByLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        createdByLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -80).isActive = true
-        createdByLabel.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor, multiplier: 0.9).isActive = true
-        
-        emailButton.topAnchor.constraint(equalTo: createdByLabel.bottomAnchor, constant: 60).isActive = true
-        emailButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        emailButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.9).isActive = true
-        
-        websiteButton.topAnchor.constraint(equalTo: emailButton.bottomAnchor, constant: 25).isActive = true
-        websiteButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        websiteButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.9).isActive = true
-        
-        donateButton.topAnchor.constraint(equalTo: websiteButton.bottomAnchor, constant: 25).isActive = true
-        donateButton.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        donateButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.9).isActive = true
-        
+        stack.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.9).isActive = true
+        stack.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        stack.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+        stack.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.9).isActive = true
     }
     
     func hide() {

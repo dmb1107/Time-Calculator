@@ -1,6 +1,6 @@
-# Time-Calculator
+# Time Calculator++
 An iOS application that performs time calculations!<br>
-<p>This application will be released on the app store very soon.</p>
+<p>This application is currently awaiting approval on the app store.</p>
 <br>
 <img src="/screenshots/Icon-Full.png" width="180px"></img>
 

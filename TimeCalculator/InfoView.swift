@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import StoreKit
 
-class InfoView: UIView {
+class InfoView: UIView{
     
     var stack = UIStackView()
+    
     let createdByLabel: UILabel = {
         let label = UILabel()
         label.text = "Application developed by Dave Becker."
@@ -43,9 +45,9 @@ class InfoView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    let donateButton: UIButton = {
+    let reviewButton: UIButton = {
        let button = UIButton()
-        button.setTitle("Donate $.99?", for: .normal)
+        button.setTitle("Submit a review", for: .normal)
         button.backgroundColor = styles.buttonBackgroundColor
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 5
@@ -83,7 +85,7 @@ class InfoView: UIView {
         setupLayout()
     }
     func createStackView() {
-        stack = UIStackView(arrangedSubviews: [createdByLabel, emailButton, websiteButton, donateButton])
+        stack = UIStackView(arrangedSubviews: [createdByLabel, emailButton, websiteButton, reviewButton])
         stack.axis = .vertical
         stack.distribution = .fillEqually
         stack.alignment = .fill
@@ -120,7 +122,10 @@ class InfoView: UIView {
                 UIApplication.shared.open(url)
             }
         } else if sender.tag == 2 {
-            // TODO: in app purchase
+            let appId = "id1439716657"
+            if let url = URL(string: "itms-apps://itunes.apple.com/app/" + appId) {
+                UIApplication.shared.open(url)
+            }
         }
     }
     

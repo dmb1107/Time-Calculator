@@ -18,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5515C3F5217BEFC8005FED8A /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		553E95922152A71F00184CBB /* TimeCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		553E95952152A71F00184CBB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		553E95972152A71F00184CBB /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -41,11 +42,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5515C3F4217BEFC8005FED8A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5515C3F5217BEFC8005FED8A /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		553E95892152A71F00184CBB = {
 			isa = PBXGroup;
 			children = (
 				553E95942152A71F00184CBB /* TimeCalculator */,
 				553E95932152A71F00184CBB /* Products */,
+				5515C3F4217BEFC8005FED8A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

@@ -8,49 +8,14 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, setPickersToValuesDelegate {
 
-    let generator = UIImpactFeedbackGenerator(style: .light)
     var hoursToAdd: Int = 0
     var minsToAdd: Int = 0
     let infoView = InfoView()
     let closeButton = CloseButton()
-    let topView = TopView()
-    let middleView: UIView = {
-        let view = UIView()
-        view.backgroundColor = styles.middleViewBackgroundColor
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    let originalTimeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Original Time"
-        label.font = styles.headerFont
-        label.textColor = styles.lightLabelColor
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    let originalTimePicker: UIDatePicker = {
-        let picker = UIDatePicker()
-        picker.datePickerMode = .time
-        picker.date = NSDate() as Date
-        picker.setValue(styles.lightLabelColor, forKeyPath: "textColor")
-        picker.translatesAutoresizingMaskIntoConstraints = false
-        picker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
-        return picker
-    }()
-    let setAsCurrentTimeButton: UIButton = {
-        let button = UIButton(type: UIButton.ButtonType.system)
-        button.setTitle("Set as current time", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.layer.backgroundColor = styles.buttonBackgroundColor.cgColor
-        button.layer.cornerRadius = 4
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(currentTimeButtonClicked), for: .touchUpInside)
-        return button
-    }()
-    let currentTimeButtonContainer = UIView()
+    let topHalfView = TopHalfView()
+    let generator = VibrationHandler()
     let bottomView: UIView = {
         let view = UIView()
         view.backgroundColor = styles.bottomViewBackgroundColor
@@ -98,11 +63,12 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Time Calculator"
+        topHalfView.delegate = self
         hoursToAddPicker.delegate = self
         hoursToAddPicker.dataSource = self
         minsToAddPicker.delegate = self
         minsToAddPicker.dataSource = self
-        addTime(addHours: 0, addMins: 0)
+        topHalfView.addTime(addHours: 0, addMins: 0)
         
         createInfoButton()
         let buttonStack = createCalculatorButtons()
@@ -110,15 +76,10 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         closeButton.hide()
         infoView.hide()
         
-        view.addSubview(topView)
-        view.addSubview(middleView)
+        view.addSubview(topHalfView)
         view.addSubview(bottomView)
         view.addSubview(infoView)
         view.addSubview(closeButton)
-        currentTimeButtonContainer.addSubview(setAsCurrentTimeButton)
-        middleView.addSubview(originalTimeLabel)
-        middleView.addSubview(originalTimePicker)
-        middleView.addSubview(currentTimeButtonContainer)
         bottomView.addSubview(timeToAddLabel)
         bottomView.addSubview(hoursToAddLabel)
         bottomView.addSubview(minsToAddLabel)
@@ -126,8 +87,6 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         bottomView.addSubview(minsToAddPicker)
         bottomView.addSubview(buttonStack)
         
-        constrainTopView()
-        constrainMiddleView()
         constrainBottomView(stack: buttonStack)
         constrainInfoView()
         
@@ -193,14 +152,6 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         return stackV
     }
     
-    func addTime(addHours: Int , addMins: Int){
-        var components = DateComponents()
-        components.minute = addMins
-        components.hour = addHours
-        let originalDate = originalTimePicker.date
-        let futureDate = Calendar.current.date(byAdding: components, to: originalDate)
-        topView.setCalculatedLabelTextFromDate(date: futureDate!)
-    }
     
     func setPickersToValues(hours: Int, minutes: Int) {
         hoursToAddPicker.selectRow(hours, inComponent: 0, animated: true)
@@ -226,13 +177,11 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         closeButton.show()
         closeButton.frame = CGRect(x: infoView.frame.maxX-25, y: infoView.frame.minY-15, width: 40, height: 40)
         bottomView.isUserInteractionEnabled = false
-        middleView.isUserInteractionEnabled = false
+        topHalfView.fadeOutAndDisableInteraction()
         UIView.animate(withDuration: 0.2) {
             self.infoView.alpha = 1.0
             self.closeButton.alpha = 1.0
-            self.middleView.alpha = 0.3
             self.bottomView.alpha = 0.3
-            self.topView.setTopAlpha(alpha: 0.3)
         }
     }
     
@@ -240,34 +189,22 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         infoView.hide()
         closeButton.hide()
         bottomView.isUserInteractionEnabled = true
-        middleView.isUserInteractionEnabled = true
+        topHalfView.fadeInAndEnableInteraction()
         UIView.animate(withDuration: 0.2) {
             self.infoView.alpha = 0
             self.closeButton.alpha = 0
-            self.middleView.alpha = 1.0
             self.bottomView.alpha = 1.0
             self.view.alpha = 1.0
-            self.topView.setTopAlpha(alpha: 1.0)
         }
     }
     
-    @objc func currentTimeButtonClicked(_ sender: UIButton!){
-        let date = Date()
-        generator.impactOccurred()
-        originalTimePicker.date = date
-        datePickerValueChanged(originalTimePicker)
-    }
-    
     @objc func calculatorButtonClicked(_ sender: UIButton!) {
-        generator.impactOccurred()
+        generator.vibrate()
         let hours: Int = sender.tag / 60
         let minutes: Int = sender.tag % 60
         setPickersToValues(hours: hours, minutes: minutes)
     }
-    
-    @objc func datePickerValueChanged(_ sender: UIDatePicker){
-        setPickersToValues(hours: 0, minutes: 0)
-    }
+
     
     /*
      ------------------ Picker functions ------------------
@@ -295,7 +232,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         } else {
             minsToAdd = row
         }
-        addTime(addHours: hoursToAdd, addMins: minsToAdd)
+        topHalfView.addTime(addHours: hoursToAdd, addMins: minsToAdd)
     }
     
     /*
@@ -308,44 +245,16 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         infoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5).isActive = true
         infoView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9).isActive = true
     }
-    
-    func constrainTopView() {
-        topView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor).isActive = true
-        topView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        topView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        topView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.12).isActive = true
-    }
-    
-    func constrainMiddleView() {
-        middleView.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
-        middleView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        middleView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        middleView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.38).isActive = true
-        
-        originalTimeLabel.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
-        originalTimeLabel.leftAnchor.constraint(equalTo: middleView.leftAnchor).isActive = true
-        originalTimeLabel.rightAnchor.constraint(equalTo: middleView.rightAnchor).isActive = true
-        
-        originalTimePicker.topAnchor.constraint(equalTo: originalTimeLabel.bottomAnchor).isActive = true
-        originalTimePicker.leftAnchor.constraint(equalTo: middleView.leftAnchor).isActive = true
-        originalTimePicker.rightAnchor.constraint(equalTo: middleView.rightAnchor).isActive = true
-        originalTimePicker.centerYAnchor.constraint(equalTo: middleView.centerYAnchor).isActive = true
-        originalTimePicker.heightAnchor.constraint(equalTo: middleView.heightAnchor, multiplier: 0.45).isActive = true
 
-        currentTimeButtonContainer.translatesAutoresizingMaskIntoConstraints = false
-        currentTimeButtonContainer.topAnchor.constraint(equalTo: originalTimePicker.bottomAnchor).isActive = true
-        currentTimeButtonContainer.bottomAnchor.constraint(equalTo: middleView.bottomAnchor).isActive = true
-        currentTimeButtonContainer.leftAnchor.constraint(equalTo: middleView.leftAnchor).isActive = true
-        currentTimeButtonContainer.rightAnchor.constraint(equalTo: middleView.rightAnchor).isActive = true
-        
-        setAsCurrentTimeButton.centerXAnchor.constraint(equalTo: currentTimeButtonContainer.centerXAnchor).isActive = true
-        setAsCurrentTimeButton.centerYAnchor.constraint(equalTo: currentTimeButtonContainer.centerYAnchor).isActive = true
-        setAsCurrentTimeButton.widthAnchor.constraint(equalToConstant: setAsCurrentTimeButton.intrinsicContentSize.width + 20).isActive = true
-        setAsCurrentTimeButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
     
     func constrainBottomView(stack: UIStackView) {
-        bottomView.topAnchor.constraint(equalTo: middleView.bottomAnchor).isActive = true
+        topHalfView.translatesAutoresizingMaskIntoConstraints = false
+        topHalfView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        topHalfView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        topHalfView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        topHalfView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        
+        bottomView.topAnchor.constraint(equalTo: topHalfView.bottomAnchor).isActive = true
         bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         bottomView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         bottomView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -384,4 +293,5 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         stack.leftAnchor.constraint(equalTo: bottomView.leftAnchor, constant: 8).isActive = true
         stack.rightAnchor.constraint(equalTo: bottomView.rightAnchor, constant: -8).isActive = true
     }
+    
 }

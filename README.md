@@ -6,9 +6,9 @@ An iOS application that performs time calculations!<br>
 
 <h2> Screenshots: </h2>
 <div align="center">
-    <img src="/screenshots/Screenshot1.png" width="275px"></img> 
-    <img src="/screenshots/Screenshot2.png" width="275px"></img> 
-    <img src="/screenshots/Screenshot3.png" width="275px"></img> 
+    <img src="/screenshots/screenshot1.png" width="275px"></img> 
+    <img src="/screenshots/screenshot2.png" width="275px"></img> 
+    <img src="/screenshots/screenshot3.png" width="275px"></img> 
 </div>
 
 <h2>Upcoming Additions</h2>

@@ -10,7 +10,6 @@ import UIKit
 
 class TopHalfView: UIView {
     
-    let screenSize = UIScreen.main.bounds
     let topView = TopView()
     weak var delegate: setPickersToValuesDelegate?
     let middleView: UIView = {
@@ -131,14 +130,14 @@ class TopHalfView: UIView {
         topView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         topView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         topView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        topView.heightAnchor.constraint(equalToConstant: (screenSize.height - 100) * 0.12).isActive = true
+        topView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.25).isActive = true
     }
     
     private func constrainMiddleView() {
         middleView.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
         middleView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         middleView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        middleView.heightAnchor.constraint(equalToConstant: (screenSize.height - 100) * 0.38-20).isActive = true
+        middleView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
         originalTimeLabel.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
         originalTimeLabel.leftAnchor.constraint(equalTo: middleView.leftAnchor).isActive = true

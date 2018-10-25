@@ -98,7 +98,8 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         bottomView.addSubview(minsToAddPicker)
         bottomView.addSubview(buttonStack)
         
-        constrainBottomView(stack: buttonStack)
+        constrainBottomView()
+        constrainStack(stack: buttonStack)
         constrainInfoView()
         
     }
@@ -189,7 +190,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         buttonStack.removeFromSuperview()
         buttonStack = createCalculatorButtons()
         bottomView.addSubview(buttonStack)
-        constrainBottomView(stack: buttonStack)
+        constrainStack(stack: buttonStack)
     }
     
     func showInfoView() {
@@ -274,12 +275,12 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     }
 
     
-    func constrainBottomView(stack: UIStackView) {
+    func constrainBottomView() {
         topHalfView.translatesAutoresizingMaskIntoConstraints = false
         topHalfView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         topHalfView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         topHalfView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        topHalfView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        topHalfView.heightAnchor.constraint(equalToConstant: view.frame.height * 0.38).isActive = true
         
         bottomView.topAnchor.constraint(equalTo: topHalfView.bottomAnchor).isActive = true
         bottomView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -311,6 +312,9 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         minsToAddPicker.leftAnchor.constraint(equalTo: minsToAddLabel.leftAnchor).isActive = true
         minsToAddPicker.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
+    }
+    
+    func constrainStack(stack: UIStackView) {
         stack.topAnchor.constraint(equalTo: hoursToAddPicker.bottomAnchor, constant: 20).isActive = true
         if #available(iOS 11.0, *) {
             stack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8).isActive = true

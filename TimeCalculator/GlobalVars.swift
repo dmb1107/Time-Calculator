@@ -23,6 +23,9 @@ struct styles {
     static let bottomViewBackgroundColor = UIColor.white
     static let buttonBackgroundColor = UIColor(red:0.04, green:0.50, blue:1.00, alpha:1.0)
 }
+struct constants {
+    static let screenSize = UIScreen.main.bounds
+}
 
 class VibrationHandler: UIFeedbackGenerator {
     let generator = UIImpactFeedbackGenerator(style: .light)

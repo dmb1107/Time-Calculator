@@ -12,10 +12,20 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
 
     var hoursToAdd: Int = 0
     var minsToAdd: Int = 0
+    var isAddition = true
+    var buttonStack = UIStackView()
     let infoView = InfoView()
     let closeButton = CloseButton()
     let topHalfView = TopHalfView()
-    let generator = VibrationHandler()
+    
+    let switchButton: UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.backgroundColor = styles.buttonBackgroundColor
+        btn.setTitle("Subtraction", for: .normal)
+        btn.addTarget(self, action: #selector(switchMode), for: .touchUpInside)
+        return btn
+    }()
     let bottomView: UIView = {
         let view = UIView()
         view.backgroundColor = styles.bottomViewBackgroundColor
@@ -68,10 +78,10 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         hoursToAddPicker.dataSource = self
         minsToAddPicker.delegate = self
         minsToAddPicker.dataSource = self
-        topHalfView.addTime(addHours: 0, addMins: 0)
+        topHalfView.addTime(isAdd: isAddition, addHours: 0, addMins: 0)
         
         createInfoButton()
-        let buttonStack = createCalculatorButtons()
+        buttonStack = createCalculatorButtons()
         closeButton.addTarget(self, action: #selector(hideInfoView), for: .touchUpInside)
         closeButton.hide()
         infoView.hide()
@@ -80,6 +90,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         view.addSubview(bottomView)
         view.addSubview(infoView)
         view.addSubview(closeButton)
+        
         bottomView.addSubview(timeToAddLabel)
         bottomView.addSubview(hoursToAddLabel)
         bottomView.addSubview(minsToAddLabel)
@@ -100,17 +111,18 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     }
     
     func createCalculatorButtons() -> UIStackView {
-        let fifteenMinButton = makeCalculatorButtonsWithText(text: "+15 Min")
+        let operation = isAddition ? "+" : "-"
+        let fifteenMinButton = makeCalculatorButtonsWithText(text: "\(operation)15 Min")
         fifteenMinButton.tag = 15
-        let thirtyMinButton = makeCalculatorButtonsWithText(text: "+30 Min")
+        let thirtyMinButton = makeCalculatorButtonsWithText(text: "\(operation)30 Min")
         thirtyMinButton.tag = 30
-        let fourtyFiveMinButton = makeCalculatorButtonsWithText(text: "+45 Min")
+        let fourtyFiveMinButton = makeCalculatorButtonsWithText(text: "\(operation)45 Min")
         fourtyFiveMinButton.tag = 45
-        let oneHourButton = makeCalculatorButtonsWithText(text: "+1 Hr")
+        let oneHourButton = makeCalculatorButtonsWithText(text: "\(operation)1 Hr")
         oneHourButton.tag = 60
-        let oneHourFifteenButton = makeCalculatorButtonsWithText(text: "+1 Hr 15 Min")
+        let oneHourFifteenButton = makeCalculatorButtonsWithText(text: "\(operation)1 Hr 15 Min")
         oneHourFifteenButton.tag = 75
-        let oneHourThirtyButton = makeCalculatorButtonsWithText(text: "+1 Hr 30 Min")
+        let oneHourThirtyButton = makeCalculatorButtonsWithText(text: "\(operation)1 Hr 30 Min")
         oneHourThirtyButton.tag = 90
         
         return createButtonStack(array: [fifteenMinButton, thirtyMinButton, fourtyFiveMinButton, oneHourButton, oneHourFifteenButton, oneHourThirtyButton])
@@ -142,22 +154,13 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         StackHBottom.spacing = 5
         StackHBottom.translatesAutoresizingMaskIntoConstraints = false
         
-        let stackV = UIStackView(arrangedSubviews: [stackHTop, StackHBottom])
+        let stackV = UIStackView(arrangedSubviews: [stackHTop, StackHBottom, switchButton])
         stackV.axis = .vertical
         stackV.distribution = .fillEqually
         stackV.alignment = .fill
         stackV.spacing = 5
-        stackV.layer.cornerRadius = 4
         stackV.translatesAutoresizingMaskIntoConstraints = false
         return stackV
-    }
-    
-    
-    func setPickersToValues(hours: Int, minutes: Int) {
-        hoursToAddPicker.selectRow(hours, inComponent: 0, animated: true)
-        minsToAddPicker.selectRow(minutes, inComponent: 0, animated: true)
-        self.pickerView(self.hoursToAddPicker, didSelectRow: hours, inComponent: 0)
-        self.pickerView(self.minsToAddPicker, didSelectRow: minutes, inComponent: 0)
     }
     
     /*
@@ -170,6 +173,23 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         } else {
             hideInfoView()
         }
+    }
+    
+    @objc func switchMode(){
+        VibrationHandler().vibrate()
+        isAddition = !isAddition
+        if(isAddition){
+            timeToAddLabel.text = "Time To Add"
+            switchButton.setTitle("Change to subtraction", for: .normal)
+        } else {
+            timeToAddLabel.text = "Time To Subtract"
+            switchButton.setTitle("Change to addition", for: .normal)
+        }
+        setPickersToValues(hours: 0, minutes: 0)
+        buttonStack.removeFromSuperview()
+        buttonStack = createCalculatorButtons()
+        bottomView.addSubview(buttonStack)
+        constrainBottomView(stack: buttonStack)
     }
     
     func showInfoView() {
@@ -199,16 +219,22 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
     }
     
     @objc func calculatorButtonClicked(_ sender: UIButton!) {
-        generator.vibrate()
+        VibrationHandler().vibrate()
         let hours: Int = sender.tag / 60
         let minutes: Int = sender.tag % 60
         setPickersToValues(hours: hours, minutes: minutes)
     }
-
     
     /*
      ------------------ Picker functions ------------------
      */
+    
+    func setPickersToValues(hours: Int, minutes: Int) {
+        hoursToAddPicker.selectRow(hours, inComponent: 0, animated: true)
+        minsToAddPicker.selectRow(minutes, inComponent: 0, animated: true)
+        self.pickerView(self.hoursToAddPicker, didSelectRow: hours, inComponent: 0)
+        self.pickerView(self.minsToAddPicker, didSelectRow: minutes, inComponent: 0)
+    }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
@@ -232,7 +258,8 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         } else {
             minsToAdd = row
         }
-        topHalfView.addTime(addHours: hoursToAdd, addMins: minsToAdd)
+        topHalfView.addTime(isAdd: isAddition, addHours: hoursToAdd, addMins: minsToAdd)
+        
     }
     
     /*

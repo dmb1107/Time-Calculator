@@ -16,7 +16,6 @@
 		55690FF62166847D00FC1DD9 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55690FF52166847D00FC1DD9 /* InfoView.swift */; };
 		55690FF82166890D00FC1DD9 /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55690FF72166890D00FC1DD9 /* CloseButton.swift */; };
 		557B198C2180C2D900729103 /* TopHalfView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557B198B2180C2D900729103 /* TopHalfView.swift */; };
-		557B198E2180C71200729103 /* VibrationHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 557B198D2180C71200729103 /* VibrationHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,7 +31,6 @@
 		55690FF52166847D00FC1DD9 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		55690FF72166890D00FC1DD9 /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		557B198B2180C2D900729103 /* TopHalfView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopHalfView.swift; sourceTree = "<group>"; };
-		557B198D2180C71200729103 /* VibrationHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VibrationHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,7 +77,6 @@
 				55690FF72166890D00FC1DD9 /* CloseButton.swift */,
 				55690FE92165709F00FC1DD9 /* TopView.swift */,
 				557B198B2180C2D900729103 /* TopHalfView.swift */,
-				557B198D2180C71200729103 /* VibrationHandler.swift */,
 				55690FF52166847D00FC1DD9 /* InfoView.swift */,
 				553E95A72152B4DD00184CBB /* GlobalVars.swift */,
 				553E959C2152A72100184CBB /* Assets.xcassets */,
@@ -164,7 +161,6 @@
 				553E95A82152B4DD00184CBB /* GlobalVars.swift in Sources */,
 				557B198C2180C2D900729103 /* TopHalfView.swift in Sources */,
 				55690FEA2165709F00FC1DD9 /* TopView.swift in Sources */,
-				557B198E2180C71200729103 /* VibrationHandler.swift in Sources */,
 				553E95962152A71F00184CBB /* AppDelegate.swift in Sources */,
 				55690FF62166847D00FC1DD9 /* InfoView.swift in Sources */,
 			);

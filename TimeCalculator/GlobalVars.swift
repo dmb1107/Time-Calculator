@@ -22,5 +22,11 @@ struct styles {
     static let middleViewBackgroundColor = UIColor(red:0.07, green:0.21, blue:0.36, alpha:1.0)
     static let bottomViewBackgroundColor = UIColor.white
     static let buttonBackgroundColor = UIColor(red:0.04, green:0.50, blue:1.00, alpha:1.0)
-    
+}
+
+class VibrationHandler: UIFeedbackGenerator {
+    let generator = UIImpactFeedbackGenerator(style: .light)
+    func vibrate(){
+        generator.impactOccurred()
+    }
 }

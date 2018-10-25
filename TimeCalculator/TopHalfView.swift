@@ -9,9 +9,9 @@
 import UIKit
 
 class TopHalfView: UIView {
+    
     let screenSize = UIScreen.main.bounds
     let topView = TopView()
-    let generator = VibrationHandler()
     weak var delegate: setPickersToValuesDelegate?
     let middleView: UIView = {
         let view = UIView()
@@ -64,7 +64,6 @@ class TopHalfView: UIView {
     }
     
     private func setupView() {
-
         addSubview(topView)
         addSubview(middleView)
         currentTimeButtonContainer.addSubview(setAsCurrentTimeButton)
@@ -78,12 +77,63 @@ class TopHalfView: UIView {
         constrainMiddleView()
     }
     
+    func addTime(isAdd: Bool, addHours: Int , addMins: Int) {
+        var components = DateComponents()
+        components.minute = isAdd ? addMins : -addMins
+        components.hour = isAdd ? addHours : -addHours
+        let originalDate = originalTimePicker.date
+        let futureDate = Calendar.current.date(byAdding: components, to: originalDate)
+        topView.setCalculatedLabelTextFromDate(date: futureDate!)
+    }
+    
+    func fadeOutAndDisableInteraction() {
+        topView.isUserInteractionEnabled = false
+        middleView.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.2) {
+            self.middleView.alpha = 0.3
+            self.topView.setTopAlpha(alpha: 0.3)
+        }
+    }
+    
+    func fadeInAndEnableInteraction() {
+        topView.isUserInteractionEnabled = true
+        middleView.isUserInteractionEnabled = true
+        UIView.animate(withDuration: 0.2) {
+            self.middleView.alpha = 1.0
+            self.topView.setTopAlpha(alpha: 1.0)
+        }
+    }
+    
+    /*
+     ------------------ Selector functions ------------------
+     */
+    
+    @objc func currentTimeButtonClicked(_ sender: UIButton!){
+        let date = Date()
+        VibrationHandler().vibrate()
+        setDatePickerValue(date: date)
+    }
+    
+    @objc func datePickerValueChanged(_ sender: UIDatePicker){
+        delegate?.setPickersToValues(hours: 0, minutes: 0)
+    }
+    
+    func setDatePickerValue(date: Date) {
+        originalTimePicker.date = date
+        datePickerValueChanged(originalTimePicker)
+    }
+    
+    /*
+     ------------------ Constraints ------------------
+     */
+    
     private func constrainTopView() {
         topView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         topView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         topView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         topView.heightAnchor.constraint(equalToConstant: (screenSize.height - 100) * 0.12).isActive = true
     }
+    
     private func constrainMiddleView() {
         middleView.topAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
         middleView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
@@ -110,44 +160,6 @@ class TopHalfView: UIView {
         setAsCurrentTimeButton.centerYAnchor.constraint(equalTo: currentTimeButtonContainer.centerYAnchor).isActive = true
         setAsCurrentTimeButton.widthAnchor.constraint(equalToConstant: setAsCurrentTimeButton.intrinsicContentSize.width + 20).isActive = true
         setAsCurrentTimeButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-    }
-    
-    func addTime(addHours: Int , addMins: Int) {
-        var components = DateComponents()
-        components.minute = addMins
-        components.hour = addHours
-        let originalDate = originalTimePicker.date
-        let futureDate = Calendar.current.date(byAdding: components, to: originalDate)
-        topView.setCalculatedLabelTextFromDate(date: futureDate!)
-    }
-    
-    func fadeOutAndDisableInteraction() {
-        topView.isUserInteractionEnabled = false
-        middleView.isUserInteractionEnabled = false
-        UIView.animate(withDuration: 0.2) {
-            self.middleView.alpha = 0.3
-            self.topView.setTopAlpha(alpha: 0.3)
-        }
-    }
-    
-    func fadeInAndEnableInteraction() {
-        topView.isUserInteractionEnabled = true
-        middleView.isUserInteractionEnabled = true
-        UIView.animate(withDuration: 0.2) {
-            self.middleView.alpha = 1.0
-            self.topView.setTopAlpha(alpha: 1.0)
-        }
-    }
-    
-    @objc func currentTimeButtonClicked(_ sender: UIButton!){
-        let date = Date()
-        generator.vibrate()
-        originalTimePicker.date = date
-        datePickerValueChanged(originalTimePicker)
-    }
-    
-    @objc func datePickerValueChanged(_ sender: UIDatePicker){
-        delegate?.setPickersToValues(hours: 0, minutes: 0)
     }
     
 }

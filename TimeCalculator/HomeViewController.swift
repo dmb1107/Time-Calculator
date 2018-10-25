@@ -22,7 +22,7 @@ class HomeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDa
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.backgroundColor = styles.buttonBackgroundColor
-        btn.setTitle("Subtraction", for: .normal)
+        btn.setTitle("Change to subtraction", for: .normal)
         btn.addTarget(self, action: #selector(switchMode), for: .touchUpInside)
         return btn
     }()

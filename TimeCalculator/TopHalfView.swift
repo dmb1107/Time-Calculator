@@ -158,7 +158,13 @@ class TopHalfView: UIView {
         setAsCurrentTimeButton.centerXAnchor.constraint(equalTo: currentTimeButtonContainer.centerXAnchor).isActive = true
         setAsCurrentTimeButton.centerYAnchor.constraint(equalTo: currentTimeButtonContainer.centerYAnchor).isActive = true
         setAsCurrentTimeButton.widthAnchor.constraint(equalToConstant: setAsCurrentTimeButton.intrinsicContentSize.width + 20).isActive = true
-        setAsCurrentTimeButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        var btnHeight:CGFloat = 40
+        if UIDevice.modelName == "iPhone SE" {
+            btnHeight = 30
+        } else if UIDevice.modelName == "iPhone XS Max" {
+            btnHeight = 45
+        }
+        setAsCurrentTimeButton.heightAnchor.constraint(equalToConstant: btnHeight).isActive = true
     }
     
 }
